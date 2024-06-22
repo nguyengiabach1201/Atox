@@ -9,7 +9,19 @@ export const instructions = {
   xor: "xor",
   not: "not",
   jmp: "jmp", // go to a if b
-  sec: "sec", // section
+};
+
+export const parameter = {
+  mov: ["r", ""],
+  add: ["r", ""],
+  sub: ["r", ""],
+  mul: ["r", ""],
+  div: ["r", ""],
+  and: ["r", ""],
+  or: ["r", ""],
+  xor: ["r", ""],
+  not: ["r", ""],
+  jmp: [""],
 };
 
 export const registers = {
@@ -60,15 +72,13 @@ export class Disassembler {
       if (!(instruction in instructions))
         this.error(`Unknown instruction: ${instruction}`, i + 1);
 
-      args.forEach((arg) => {
-        if (!(arg in registers) && typeof parseInt(arg) !== NaN) {
-          this.error(
-            `Invalid argument, argument(s) must be registers or interger`,
-            i + 1,
-          );
-          continue;
+      for (let j = 0; j < args.length; j++) {
+        if (parameter.instruction[j]) {
+          if (parameter.instruction[j] === "r" && args[j] in registers)
+            continue;
         }
-      });
+        throw new Error(`Invalid argument: ${args[j]}`);
+      }
 
       this.instructions.push(new Instruction(instruction, args));
     }
