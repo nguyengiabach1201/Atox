@@ -54,9 +54,12 @@ export class Disassembler {
   constructor(src) {
     this.src = src;
     this.instructions = [];
+
+    this.halted = false;
   }
 
   error(msg, line) {
+    this.halted = true;
     console.error(`Error: ${msg} at line ${line}`);
   }
 
@@ -73,11 +76,16 @@ export class Disassembler {
         this.error(`Unknown instruction: ${instruction}`, i + 1);
 
       for (let j = 0; j < args.length; j++) {
-        if (parameter.instruction[j]) {
-          if (parameter.instruction[j] === "r" && args[j] in registers)
+        if (parameter[instruction][j] !== undefined) {
+          if (parameter[instruction][j] === "r" && args[j] in registers)
+            continue;
+          else if (
+            parameter[instruction][j] === "" &&
+            (args[j] in registers || typeof parseInt(args[j]) == "number")
+          )
             continue;
         }
-        throw new Error(`Invalid argument: ${args[j]}`);
+        this.error(`Invalid argument: ${args[j]}`, i + 1);
       }
 
       this.instructions.push(new Instruction(instruction, args));
