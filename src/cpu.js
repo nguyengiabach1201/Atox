@@ -30,23 +30,50 @@ class CPU {
     };
   }
 
+  int(reg) {
+    if (this.registers[reg] > 255) this.registers[reg] -= 256;
+    if (this.registers[reg] < -256) this.registers[reg] += 256;
+  }
+
   execute(instruction) {
     const id = instruction.instruction.id;
     const args = instruction.args;
 
     switch (id) {
       case "mov": {
-        const reg = args[0];
-        const val = args[1];
+        const reg = args[0],
+          val = args[1];
 
-        if (val in registers) {
-          this.registers[reg] = this.registers[val];
-        } else {
-          this.registers[reg] = parseInt(val);
-        }
+        if (val in registers) this.registers[reg] = this.registers[val];
+        else this.registers[reg] = parseInt(val);
+
+        int(reg);
 
         break;
       }
+      case "add": {
+        const reg = args[0],
+          val = args[1];
+
+        if (val in registers) this.registers[reg] += this.registers[val];
+        else this.registers[reg] += parseInt(val);
+
+        int(reg);
+
+        break;
+      }
+      case "sub": {
+        const reg = args[0],
+          val = args[1];
+
+        if (val in registers) this.registers[reg] -= this.registers[val];
+        else this.registers[reg] -= parseInt(val);
+
+        int(reg);
+
+        break;
+      }
+        
     }
   }
 }
