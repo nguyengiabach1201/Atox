@@ -31,3 +31,16 @@ export const registers = {
   vF: "vF",
 };
 
+export class Instruction {
+  constructor(id, args) {
+    this.id = id;
+    this.args = args;
+  }
+}
+
+export class Disassembler {
+  constructor(src) {
+    this.src = src;
+    
+  }
+}
