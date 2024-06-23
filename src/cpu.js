@@ -4,15 +4,15 @@ export class CPU {
   }
   reset() {
     this.memory = new Uint8Array(1024);
-    this.PC = 0x200;
+    this.PC = 0;
   }
   load(rom) {
     this.reset();
     for (let i = 0; i < rom.length; i++) this.memory[this.PC + i] = rom[i];
   }
   fetch() {
-    if (this.PC > 4095) throw new Error("Memory out of bounds.");
-    return (this.memory[this.PC] << 8) | (this.memory[this.PC + 1] << 0);
+    if (this.PC > 1024) throw new Error("Memory out of bounds.");
+    return this.memory[this.PC];
   }
   step() {
     const op = this.fetch();
