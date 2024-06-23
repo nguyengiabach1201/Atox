@@ -1,2 +1,2 @@
 # Atox 
-A fantasy console
+A fantasy console which can only run Brainfvck!
