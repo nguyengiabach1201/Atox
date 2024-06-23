@@ -26,12 +26,10 @@ export class CPU {
   }
   step() {
     const op = this.fetch();
-    // console.log(op);
     this.execute(op);
   }
   execute(op) {
-    // console.log(op.toString());
-    op = Buffer.from(op.toString(), "hex");
-    console.log("" + op);
+    op = op.toString(16);
+    console.log(op);
   }
 }
