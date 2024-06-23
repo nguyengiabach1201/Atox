@@ -24,6 +24,10 @@ export class CPU {
     if (this.PC > 4095) throw new Error("Memory out of bounds.");
     return (this.memory[this.PC] << 8) | (this.memory[this.PC + 1] << 0);
   }
-  step() {}
-  execute() {}
+  step() {
+    const operation = this.fetch();
+    console.log(operation);
+    this.execute(operation);
+  }
+  execute(operation) {}
 }
