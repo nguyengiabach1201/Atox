@@ -12,22 +12,18 @@ export class CPU {
     this.reset();
   }
   reset() {
-    this.memory = new Array(1024);
-    this.ptr = 0;
+    this.memory = new Array(1024).fill(0);
+    this.ptr = 0x200;
   }
   load(rom) {
     this.reset();
-    
+
     for (let i = 0; i < rom.data.length; i++) {
-      // console.log(rom.data[i]);
       this.memory[i] = rom.data[i];
     }
-    // this.execute();
-    // console.log(this.memory[0]);
   }
   execute() {
-    // console.log(this.memory);
-    for (let i = 0; i < this.memory.length; i++) {
+    for (let i = 0; i < this.memory.length / 2; i++) {
       switch (this.memory[i]) {
         case ">":
           this.ptr++;
