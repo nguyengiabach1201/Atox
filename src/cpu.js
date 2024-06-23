@@ -15,6 +15,10 @@ export class CPU {
   }
   load(rom) {
     this.reset();
+    for (let i = 0; i < rom.length; i++) {
+      this.memory[memoryStart + 2 * i] = rom[i] >> 8;
+      this.memory[memoryStart + 2 * i + 1] = rom[i] & 0x00ff;
+    }
   }
   fetch() {
     if (this.PC > 4095) throw new Error("Memory out of bounds.");
