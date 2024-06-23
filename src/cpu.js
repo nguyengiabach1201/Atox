@@ -10,4 +10,8 @@ export class CPU {
     this.SP = -1;
     this.PC = 0x200;
   }
+
+  fetch() {}
+  step() {}
+  execute() {}
 }
