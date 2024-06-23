@@ -16,8 +16,8 @@ export class CPU {
   load(rom) {
     this.reset();
     for (let i = 0; i < rom.length; i++) {
-      this.memory[memoryStart + 2 * i] = rom[i] >> 8;
-      this.memory[memoryStart + 2 * i + 1] = rom[i] & 0x00ff;
+      this.memory[this.PC + 2 * i] = rom[i] >> 8;
+      this.memory[this.PC + 2 * i + 1] = rom[i] & 0x00ff;
     }
   }
   fetch() {
@@ -25,9 +25,13 @@ export class CPU {
     return (this.memory[this.PC] << 8) | (this.memory[this.PC + 1] << 0);
   }
   step() {
-    const operation = this.fetch();
-    console.log(operation);
-    this.execute(operation);
+    const op = this.fetch();
+    // console.log(op);
+    this.execute(op);
   }
-  execute(operation) {}
+  execute(op) {
+    // console.log(op.toString());
+    op = Buffer.from(op.toString(), "hex");
+    console.log("" + op);
+  }
 }
